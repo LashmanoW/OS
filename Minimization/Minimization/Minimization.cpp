@@ -110,55 +110,22 @@ void Minimization(Automaton& automaton, bool& isMinimized, int& N)
     N = equivalenceMatrix.size();
 }
 
-void ReadAutomaton(Automaton& a, std::ifstream& input, std::string& type)
+void ReadMilli(Automaton& a, std::ifstream& input)
 {
     std::string lineS;
     std::string lineY;
     std::getline(input, lineS);
-    
-    if (type == "Ml")
+
+    for (int i = 0; i < a.size(); i++)
     {
-        for (int i = 0; i < a.size(); i++)
+        std::getline(input, lineS);
+        for (int k = 0; k < lineS.length(); ++k)
         {
-            std::getline(input, lineS);                       
-            for (int k = 0; k < lineS.length(); ++k)
+            if (isalpha(lineS[k]))
             {
-                if (isalpha(lineS[k]))
-                {
-                    lineS[k] = ' ';
-                }                                 
+                lineS[k] = ' ';
             }
-            std::getline(input, lineY);
-            for (int k = 0; k < lineY.length(); ++k)
-            {
-                if (isalpha(lineY[k]))
-                {
-                    lineY[k] = ' ';
-                }
-            }
-
-            std::cout << lineS << std::endl;
-
-            std::stringstream strS(lineS);
-            std::stringstream strY(lineY);
-            
-            int ar = a[0].size();
-            for (int j = 0; j < a[0].size(); j++)
-            {
-                int numS;
-                strS >> numS;
-                a[i][j].to = numS - 1;
-                
-                int numY;
-                strY >> numY;
-                a[i][j].multiplicity = numY - 1;
-                a[i][j].out = numY - 1;
-            }
-            
-        }        
-    }
-    else
-    {
+        }
         std::getline(input, lineY);
         for (int k = 0; k < lineY.length(); ++k)
         {
@@ -166,93 +133,154 @@ void ReadAutomaton(Automaton& a, std::ifstream& input, std::string& type)
             {
                 lineY[k] = ' ';
             }
-        }        
+        }
+
+        std::cout << lineS << std::endl;
+
+        std::stringstream strS(lineS);
         std::stringstream strY(lineY);
 
-        for (int i = 0; i < a[0].size();  i++)
+        int ar = a[0].size();
+        for (int j = 0; j < a[0].size(); j++)
         {
+            int numS;
+            strS >> numS;
+            a[i][j].to = numS - 1;
+
             int numY;
             strY >> numY;
+            a[i][j].multiplicity = numY - 1;
+            a[i][j].out = numY - 1;
+        }
+    }
+}
 
-            for (int j = 0; j < a.size();  j++)
-            {                
-                a[j][i].multiplicity = numY - 1;
-                a[j][i].out = numY - 1;
+void ReadMurra(Automaton& a, std::ifstream& input)
+{
+    std::string lineS;
+    std::string lineY;
+    std::getline(input, lineS);
+
+    std::getline(input, lineY);
+    for (int k = 0; k < lineY.length(); ++k)
+    {
+        if (isalpha(lineY[k]))
+        {
+            lineY[k] = ' ';
+        }
+    }
+    std::stringstream strY(lineY);
+
+    for (int i = 0; i < a[0].size(); i++)
+    {
+        int numY;
+        strY >> numY;
+
+        for (int j = 0; j < a.size(); j++)
+        {
+            a[j][i].multiplicity = numY - 1;
+            a[j][i].out = numY - 1;
+        }
+    }
+
+    for (int i = 0; i < a.size(); i++)
+    {
+        std::getline(input, lineS);
+        for (int k = 0; k < lineS.length(); ++k)
+        {
+            if (isalpha(lineS[k]))
+            {
+                lineS[k] = ' ';
             }
         }
+        std::stringstream strS(lineS);
 
-        for (int i = 0; i < a.size(); i++)
-        {            
-            std::getline(input, lineS);
-            for (int k = 0; k < lineS.length(); ++k)
-            {
-                if (isalpha(lineS[k]))
-                {
-                    lineS[k] = ' ';
-                }
-            }
-            std::stringstream strS(lineS);
-
-            for (int j = 0; j < a[0].size(); j++)
-            {
-                int numS;
-                strS >> numS;
-                a[i][j].to = numS - 1;
-            }
+        for (int j = 0; j < a[0].size(); j++)
+        {
+            int numS;
+            strS >> numS;
+            a[i][j].to = numS - 1;
         }
+    }
+}
+
+void ReadAutomaton(Automaton& a, std::ifstream& input, std::string& type)
+{   
+    if (type == "Ml")
+    {
+        ReadMilli(a, input);
+    }
+    else
+    {
+        ReadMurra(a, input);
+    }
+}
+
+void WriteMilli()
+{
+    std::ofstream output;
+    output.open("output.txt");
+
+    for (int i = 0; i < ResultI.size(); i++)
+    {
+        std::string out = "S" + std::to_string(ResultI[i] + 1);
+        output << std::setw(20) << out;
+    }
+    output << std::endl;
+
+    for (int i = 0; i < ResultA.size(); i++)
+    {
+        output << "X" << i + 1;
+        for (int j = 0; j < ResultA[0].size(); j++)
+        {
+            std::string out = "[S" + std::to_string(ResultA[i][j].to + 1) + ", Y" + std::to_string(ResultA[i][j].out + 1) + "]";
+            output << std::setw(20) << std::right << out;
+        }
+        output << std::endl;
+    }
+}
+
+void WriteMurra()
+{
+    std::ofstream output;
+    output.open("output.txt");
+
+    for (int i = 0; i < ResultI.size(); i++)
+    {
+        std::string out = "Y" + std::to_string(ResultA[0][i].out + 1);
+        output << std::setw(20) << out;
+    }
+    output << std::endl;
+
+    for (int i = 0; i < ResultI.size(); i++)
+    {
+        std::string out = "S" + std::to_string(ResultI[i] + 1);
+        output << std::setw(20) << out;
+    }
+    output << std::endl;
+
+    for (int i = 0; i < ResultA.size(); i++)
+    {
+        output << "X" << i + 1;
+        for (int j = 0; j < ResultA[0].size(); j++)
+        {
+            std::string out = "[S" + std::to_string(ResultA[i][j].to + 1) + "]";
+            output << std::setw(20) << std::right << out;
+        }
+        output << std::endl;
     }
 }
 
 void WriteAutomaton(std::string& type)
 {
-    std::ofstream output;
-    output.open("output.txt");
+    
     if (type == "Ml")
     {                
-        for (int i = 0; i < ResultI.size(); i++)
-        {
-            std::string out = "S" + std::to_string(ResultI[i] + 1);
-            output << std::setw(20) << out;
-        }
-        output << std::endl;
-
-        for (int i = 0; i < ResultA.size(); i++)
-        {
-            output << "X" << i + 1;
-            for (int j = 0; j < ResultA[0].size(); j++)
-            {
-                std::string out = "[S" + std::to_string(ResultA[i][j].to + 1) + ", Y" + std::to_string(ResultA[i][j].out + 1) + "]";
-                output << std::setw(20) << std::right << out;
-            }
-            output << std::endl;
-        }
+        WriteMilli();
     }
     else
     {
-        for (int i = 0; i < ResultI.size(); i++)
-        {
-            std::string out = "Y" + std::to_string(ResultA[0][i].out + 1);
-            output << std::setw(20) << out;
-        }
-        output << std::endl;
-
-        for (int i = 0; i < ResultI.size(); i++)
-        {
-            std::string out = "S" + std::to_string(ResultI[i] + 1);
-            output << std::setw(20) << out;
-        }
-        output << std::endl;
-
-        for (int i = 0; i < ResultA.size(); i++)
-        {
-            output << "X" << i + 1;
-            for (int j = 0; j < ResultA[0].size(); j++)
-            {
-                std::string out = "[S" + std::to_string(ResultA[i][j].to + 1) + "]";
-                output << std::setw(20) << std::right << out;
-            }
-            output << std::endl;
-        }
+        WriteMurra();
     }
 }
 
