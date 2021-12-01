@@ -1,0 +1,25 @@
+﻿  Minimization.cpp
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(31,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(39,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(64,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(66,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(84,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(86,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(138,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(141,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(149,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(163,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(184,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(193,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(198,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(205,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(208,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(217,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(243,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(250,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(253,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(267,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(274,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(281,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\79371\Documents\GitHub\OS\Minimization\Minimization\Minimization.cpp(284,27): warning C4018: '<': signed/unsigned mismatch
+  Minimization.vcxproj -> C:\Users\79371\Documents\GitHub\OS\Minimization\Debug\Minimization.exe

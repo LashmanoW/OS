@@ -15,15 +15,20 @@ struct Cell
 
 using Automaton = std::vector<std::vector<Cell>>;
 using EMatrix = std::map<int, std::vector<int>>;
+
+EMatrix matrix;
 Automaton ResultA;
 std::vector<int> ResultI;
+std::ifstream input;
+std::string type;
+int x, y, r;
 
-void GetEquivalenceMatrix(Automaton& automaton, EMatrix& equivalenceMatrix)
+void GetEquivalenceMatrix(Automaton& automaton, std::vector<int>& indexes, EMatrix& equivalenceMatrix)
 {
-    int k = 0;
-    equivalenceMatrix[k].push_back(0);
+    int k = 0;  
+    equivalenceMatrix[k].push_back(indexes[0]);
 
-    for (int i = 1; i < automaton[0].size(); i++)
+    for (int i = 1; i < indexes.size(); i++)
     {
         bool isFound = false;
         EMatrix::iterator it = equivalenceMatrix.begin();
@@ -33,7 +38,7 @@ void GetEquivalenceMatrix(Automaton& automaton, EMatrix& equivalenceMatrix)
             isFound = true;
             for (int j = 0; j < automaton.size(); j++)
             {
-                if (automaton[j][it->second[0]].multiplicity != automaton[j][i].multiplicity)
+                if (automaton[j][it->second[0]].multiplicity != automaton[j][indexes[i]].multiplicity)
                 {
                     isFound = false;
                     it++;
@@ -44,12 +49,12 @@ void GetEquivalenceMatrix(Automaton& automaton, EMatrix& equivalenceMatrix)
 
         if (isFound)
         {
-            equivalenceMatrix[it->first].push_back(i);
+            equivalenceMatrix[it->first].push_back(indexes[i]);
         }
         else
         {
             k++;
-            equivalenceMatrix[k].push_back(i);
+            equivalenceMatrix[k].push_back(indexes[i]);
         }
     }
 }
@@ -83,7 +88,7 @@ void GetResult(Automaton& automaton, EMatrix& ResultM)
             result[j][i] = automaton[j][it->second[0]];  
 
             EMatrix::iterator n = ResultM.begin();
-            while (std::find((n->second).begin(), (n->second).end(), automaton[j][i].to) == (n->second).end())
+            while (std::find((n->second).begin(), (n->second).end(), automaton[j][it->second[0]].to) == (n->second).end())
             {
                 n++;
             }
@@ -99,14 +104,28 @@ void GetResult(Automaton& automaton, EMatrix& ResultM)
 void Minimization(Automaton& automaton, bool& isMinimized, int& N)
 {
     EMatrix equivalenceMatrix;
-    GetEquivalenceMatrix(automaton, equivalenceMatrix);
+    EMatrix::iterator it = matrix.begin();
+    for (; it != matrix.end(); it++)
+    {
+        EMatrix matrixE;
+        GetEquivalenceMatrix(automaton, it->second, matrixE);
+
+        int k = equivalenceMatrix.size();
+        for (auto arr : matrixE)
+        {
+            equivalenceMatrix[k] = arr.second;
+            k++;
+        }
+    }
+    matrix = equivalenceMatrix;
+    
     OverrideAutomaton(automaton, equivalenceMatrix);
     if (equivalenceMatrix.size() == N)
     {
         isMinimized = true;
         GetResult(automaton, equivalenceMatrix);
     }
-
+        
     N = equivalenceMatrix.size();
 }
 
@@ -284,23 +303,26 @@ void WriteAutomaton(std::string& type)
     }
 }
 
+void ReadParam()
+{
+    input.open("input.txt");
+    std::getline(input, type);
+    input >> y >> x >> r;
+}
 
 int main()
-{
-    std::ifstream input;
-    input.open("input.txt");
-    
-    std::string type;
-    
-    std::getline(input, type);
-    int x, y, r;
-    input >> y >> x >> r;
+{    
+    ReadParam();
     
     Automaton automaton(x, std::vector<Cell>(y));
     ReadAutomaton(automaton, input, type);
 
     bool isMinimized = false;
     int N = automaton[0].size();
+    for (int i = 0; i < N; i++)
+    {
+        matrix[0].push_back(i);
+    }
 
     while (!isMinimized)
     {
