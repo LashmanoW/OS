@@ -1,0 +1,3 @@
+S -> aBS
+BS -> aBS | bBC
+BC -> bBC | eH

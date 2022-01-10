@@ -1,0 +1,4 @@
+R
+S -> aS | aB
+B -> bB | bC
+C -> bC | e
