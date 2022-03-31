@@ -1,0 +1,13 @@
+int main()
+{   
+    string inputLine = readFile("input.txt");
+    Tokenizer tokenizer;
+    tokenizer.input = inputLine;
+    while (tokenizer.currentIndex < tokenizer.input.size())
+    {
+        auto token = GetToken(tokenizer);
+        if (token.type == TokenType::UNKNOWN)
+            break;
+        cout << "[" + token.token + "\t\t" + GetTokenName(token.type) + "]" << endl;
+    }
+}
